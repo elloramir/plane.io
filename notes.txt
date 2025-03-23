@@ -1,0 +1,4 @@
+- change meshes to node based
+- make model only have a mesh as root by send the mesh name
+- mudar sistema de aabb do model pra so considerar a AABB do model mesmo e não considerar mais as meshes
+- unload nas meshes
