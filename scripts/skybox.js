@@ -3,16 +3,9 @@ import { mat4 } from "./math.js";
 import Texture from "./texture.js";
 
 export default class Skybox extends Mesh {
-    constructor(texture) {
+    constructor() {
         super();
-        this.texture = texture;
-        this.texture.setWrap(
-            gl.MIRRORED_REPEAT,
-            gl.MIRRORED_REPEAT);
-        this.createSkybox();
-    }
 
-    createSkybox() {
         // Define os vértices do cubo (skybox)
         const size = 1; // Tamanho do skybox
 

@@ -18,7 +18,9 @@ class State {
         this.shader = null;
         this.plane = null;
         this.planet = null;
-        this.house = null;
+        this.skyboxShader = null;
+        this.skyboxTex = null;
+        this.skybox = null;
 
         this.debugMode = false;
         this.lastTime = 0;
@@ -27,8 +29,6 @@ class State {
     }
 
     async load() {
-        // The input needs to be initialized right after the canvas
-        // has been defined, because the input events are trigged from it.
         Input.init();
 
         // Setup camera
@@ -48,16 +48,16 @@ class State {
         this.house = await GLTFLoader.loadFromFile("assets/models/house.glb");
 
         this.skyboxShader = await Shader.loadFromFile("assets/skybox.vert", "assets/skybox.frag");
-        this.skyboxTex = await Texture.loadFromFile("assets/skybox/space.jpg");
-        this.skybox = new Skybox(this.skyboxTex);
+        // this.skyboxTex = await Texture.loadFromFile("assets/skybox/space.jpg", gl.NEAREST);
+        this.skybox = new Skybox();
 
         this.addEntity(Plane, 0, 0, 0);
-        this.addEntity(Planet, 0, 0, 600);
-        this.addEntity(Planet, 400, -100, 300);
+        this.addEntity(Planet, 0, 0, -600);
+        this.addEntity(Planet, 600, 0, -600);
     }
 
-    addEntity(entityClass, ...args) {
-        const entity = new entityClass();
+    addEntity(Entity, ...args) {
+        const entity = new Entity();
         this.entities.push(entity);
         entity.stage = this;
         entity.wakeup(...args);
@@ -92,7 +92,10 @@ class State {
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
         gl.useProgram(this.shader.id)
-        gl.uniform1f(this.shader.getUniform("time"), time);
+        gl.uniform1f(this.shader.getUniform("time"), time/1000.0);
+
+        gl.useProgram(this.skyboxShader.id)
+        gl.uniform1f(this.skyboxShader.getUniform("time"), time/1000.0);
 
         this.skybox.render(this.skyboxShader, this.camera);
 

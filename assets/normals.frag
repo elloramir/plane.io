@@ -1,4 +1,4 @@
-precision mediump float;
+precision highp  float;
 
 // Entrada do vertex shader
 varying vec3 normal;

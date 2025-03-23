@@ -174,7 +174,7 @@ class GLTFLoader {
 
                 for (let v = 0; v < vertexCount; v++) {
                     const posIdx = v * 3;
-                    const x = transformedPositions[posIdx];
+                    const x = transformedPositions[posIdx + 0];
                     const y = transformedPositions[posIdx + 1];
                     const z = transformedPositions[posIdx + 2];
 

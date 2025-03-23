@@ -3,7 +3,7 @@
 
 export default
 class Texture {
-	constructor(img, filter=gl.NEAREST) {
+	constructor(img, filter=gl.LINEAR) {
 		this.id = gl.createTexture();
 		this.width = img.width;
 		this.height = img.height;
@@ -32,11 +32,11 @@ class Texture {
 		gl.bindTexture(gl.TEXTURE_2D, null);
 	}
 
-	static async loadFromFile(file) {
+	static async loadFromFile(file, filter) {
 		return new Promise((resolve, reject) => {
 			const img = new Image();
 			img.onload = () => {
-				resolve(new Texture(img));
+				resolve(new Texture(img, filter));
 			};
 			img.onerror = reject;
 			img.src = file;

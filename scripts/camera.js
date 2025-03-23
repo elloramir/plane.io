@@ -12,7 +12,7 @@ class Camera {
         this.projMat = mat4.create();
         this.viewProjMat = mat4.create();
 
-        this.near = 0.01;
+        this.near = 1;
         this.far = 1000;
 
         this.position = vec3.fromValues(x, y, z);
