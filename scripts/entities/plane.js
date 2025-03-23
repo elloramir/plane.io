@@ -49,12 +49,6 @@ class Plane extends Entity {
             this.roll = lerp(this.roll, 0, this.stabilityFactor*dt);
         }
 
-        // for (const entity of this.stage.entities) {
-        //     if (entity instanceof Planet) {
-
-        //     }
-        // }
-        
         // O yaw é influenciado pelo roll e velocidade
         const rollInfluence = -Math.sin(this.roll) * this.turnRate * dt;
         this.yaw += rollInfluence * vec3.length(this.velocity);
@@ -72,17 +66,21 @@ class Plane extends Entity {
         const forward = this.transform.forward();
         
         // Aplicar aceleração quando a tecla espaço é pressionada
-        const boost = accelerate ? 3 : 1;
-        const fovTarget = (accelerate ? 1.2 : 1) * this.initialFov;
-        this.camera.fov = lerp(this.camera.fov, fovTarget, 5*dt);
-        vec3.scale(forward, forward, this.maxSpeed*boost);
-        this.applyForce(forward);
+        {
+            const boost = accelerate ? 3 : 1;
+            const fovTarget = (accelerate ? 1.2 : 1) * this.initialFov;
+            this.camera.fov = lerp(this.camera.fov, fovTarget, 5*dt);
+            vec3.scale(forward, forward, this.maxSpeed*boost);
+            this.applyForce(forward);
+        }
         
         // Aplicar arrasto (resistência do ar)
-        const dragForce = vec3.create();
-        vec3.multiply(dragForce, this.velocity, this.dragging);
-        vec3.scale(dragForce, dragForce, -1);
-        this.applyForce(dragForce);
+        {
+            const dragForce = vec3.create();
+            vec3.multiply(dragForce, this.velocity, this.dragging);
+            vec3.scale(dragForce, dragForce, -1);
+            this.applyForce(dragForce);
+        }
         
         // Mover posição na direção da velocidade
         vec3.scaleAndAdd(this.transform.position, this.transform.position, this.velocity, dt);
@@ -93,21 +91,23 @@ class Plane extends Entity {
         // Forçar atualização da transformação
         this.transform.forceUpdate();
 
-        const distance = 20; // Distância fixa atrás do avião
-        const baseHeight = 5;
-        const heightCompensation = Math.cos(this.pitch) * -baseHeight + 10;
+        {
+            const distance = 20; // Distância fixa atrás do avião
+            const baseHeight = 5;
+            const heightCompensation = Math.cos(this.pitch) * -baseHeight + 10;
 
-        let camX = Math.sin(this.yaw) * Math.cos(this.pitch) * -distance;
-        let camY = heightCompensation;
-        let camZ = Math.cos(this.yaw) * Math.cos(this.pitch) * -distance;
+            let camX = Math.sin(this.yaw) * Math.cos(this.pitch) * -distance;
+            let camY = heightCompensation;
+            let camZ = Math.cos(this.yaw) * Math.cos(this.pitch) * -distance;
 
-        this.camera.position[0] = this.transform.position[0] + camX;
-        this.camera.position[1] = this.transform.position[1] + camY;
-        this.camera.position[2] = this.transform.position[2] + camZ;
+            this.camera.position[0] = this.transform.position[0] + camX;
+            this.camera.position[1] = this.transform.position[1] + camY;
+            this.camera.position[2] = this.transform.position[2] + camZ;
 
-        this.camera.target[0] = this.transform.position[0];
-        this.camera.target[1] = this.transform.position[1];
-        this.camera.target[2] = this.transform.position[2];
+            this.camera.target[0] = this.transform.position[0];
+            this.camera.target[1] = this.transform.position[1];
+            this.camera.target[2] = this.transform.position[2];
+        }
     }
     
     render() {

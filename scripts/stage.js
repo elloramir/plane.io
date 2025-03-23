@@ -40,7 +40,6 @@ class State {
         this.shader = await Shader.loadFromFile(
             "assets/basic.vert",
             "assets/basic.frag"
-            // "assets/normals.frag"
         );
         
         // Load models

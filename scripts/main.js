@@ -8,7 +8,7 @@ window.canvas.width = window.innerWidth;
 window.canvas.height = window.innerHeight;
 window.gl = window.canvas.getContext("webgl");
 
-let stage = new Stage();
+const stage = new Stage();
 
 stage.load().then(() => {
     requestAnimationFrame(stage.loop.bind(stage));
