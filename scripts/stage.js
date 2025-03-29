@@ -6,7 +6,7 @@ import Camera from "./camera.js";
 import Input from "./input.js";
 import GLTFLoader from "./gltf.js";
 import Texture from "./texture.js";
-import Plane from "./entities/plane.js";
+import Spaceship from "./entities/spaceship.js";
 import Planet from "./entities/planet.js";
 import Skybox from "./skybox.js";
 
@@ -40,6 +40,7 @@ class State {
         this.shader = await Shader.loadFromFile(
             "assets/basic.vert",
             "assets/basic.frag"
+            // "assets/normals.frag"
         );
         
         // Load models
@@ -48,10 +49,9 @@ class State {
         this.house = await GLTFLoader.loadFromFile("assets/models/house.glb");
 
         this.skyboxShader = await Shader.loadFromFile("assets/skybox.vert", "assets/skybox.frag");
-        // this.skyboxTex = await Texture.loadFromFile("assets/skybox/space.jpg", gl.NEAREST);
         this.skybox = new Skybox();
 
-        this.addEntity(Plane, 0, 0, 0);
+        this.addEntity(Spaceship, 0, 0, 0);
         this.addEntity(Planet, 0, 0, -600);
         this.addEntity(Planet, 600, 0, -600);
     }
@@ -65,8 +65,8 @@ class State {
     }
 
     loop(time) {
-        this.currentTime = time;
-        this.deltaTime = (this.currentTime - this.lastTime) / 1000.0;
+        this.currentTime = time/1000.0;
+        this.deltaTime = (this.currentTime - this.lastTime);
         this.lastTime = this.currentTime;
 
         for (const entity of this.entities) {
@@ -92,10 +92,10 @@ class State {
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
         gl.useProgram(this.shader.id)
-        gl.uniform1f(this.shader.getUniform("time"), time/1000.0);
+        gl.uniform1f(this.shader.getUniform("time"), this.currentTime);
 
-        gl.useProgram(this.skyboxShader.id)
-        gl.uniform1f(this.skyboxShader.getUniform("time"), time/1000.0);
+        gl.useProgram(this.skyboxShader.id);
+        gl.uniform1f(this.skyboxShader.getUniform("time"), this.currentTime);
 
         this.skybox.render(this.skyboxShader, this.camera);
 

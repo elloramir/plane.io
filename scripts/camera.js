@@ -21,7 +21,7 @@ class Camera {
         this.up = vec3.fromValues(0, 1, 0);
 
         this.aspect = 0;
-        this.fov = common.toRadian(70);
+        this.fov = common.toRadian(90);
         this.yaw = common.toRadian(270);
         this.pitch = common.toRadian(-35);
 

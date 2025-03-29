@@ -52,6 +52,13 @@ class Transform {
 		return this.matrix;
 	}
 
+	setRotationFromAxisAngle(axis, angle) {
+	    const quat = mat4.create();
+	    mat4.fromRotation(quat, angle, axis);
+	    mat4.getRotation(this.rotation, quat);
+	    this.dirty = true;
+	}
+
 	// Retorna o vetor "forward" a partir da matriz de transformação completa.
 	// O vetor forward é extraído como o vetor negativo da terceira coluna da matriz (seguindo convenção column-major).
 	forward() {

@@ -1,0 +1,3 @@
+### Goals
+- [ ] procedural planets
+- [ ] atmosphere

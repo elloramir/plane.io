@@ -1,7 +1,6 @@
 // Copyright 2025 Elloramir.
 // All rights over the code are reserved.
 
-// Plane.js
 import { vec3, mat4, common } from "../math.js";
 import { lerp } from "../utils.js";
 import Entity from "../entity.js";
@@ -9,7 +8,7 @@ import Input from "../input.js";
 import Planet from "./planet.js";
 
 export default
-class Plane extends Entity {
+class SpaceShip extends Entity {
     wakeup(x, y, z) {
         this.model = this.stage.plane;
         this.transform = this.model.transform;
@@ -17,7 +16,7 @@ class Plane extends Entity {
         this.camera = this.stage.camera;
         this.initialFov = this.camera.fov;
         this.mass = 1;
-        this.maxSpeed = 10;
+        this.maxSpeed = 20;
         this.velocity = vec3.fromValues(0, 0, 0);
         this.dragging = vec3.fromValues(0.1, 0.1, 0.1);
         this.pitch = 0;
